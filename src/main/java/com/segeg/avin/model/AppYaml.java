@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 
 @Component
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "test")
+@ConfigurationProperties(prefix = "app")
 public class AppYaml extends BaseModel {
 
     /*@NotBlank
