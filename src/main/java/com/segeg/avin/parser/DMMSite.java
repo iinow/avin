@@ -16,4 +16,8 @@ public class DMMSite extends ProductSite {
         Element list = body.getElementById("sample-image-block");
         return list;
     }
+
+    public Element getPreviewImg(Element body){
+        return body.getElementById("sample-video").select("a").get(0);
+    }
 }

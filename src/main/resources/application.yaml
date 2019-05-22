@@ -1,3 +1,5 @@
+server:
+  port: 80
 app:
   url: https://www.dmm.co.jp/search/=/searchstr=%s
   manga:

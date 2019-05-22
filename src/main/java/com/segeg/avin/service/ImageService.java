@@ -1,5 +1,7 @@
 package com.segeg.avin.service;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.segeg.avin.model.AppYaml;
 import com.segeg.avin.parser.DMMSite;
 import org.apache.commons.io.IOUtils;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.Key;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class ImageService {
@@ -21,6 +26,9 @@ public class ImageService {
 
     @Autowired
     private AppYaml app;
+
+    @Autowired
+    Cache<String, Object> cache;
 
     public String getAvcode(String avcode){
         //- 특수문자가 있을경우 잘라준다 공백으로 대체
@@ -46,28 +54,65 @@ public class ImageService {
         return IOUtils.toByteArray(new URL("https://"+path));
     }
 
+    public byte[] getPreviewImage(String avcode, StringBuffer url) throws Exception {
+        Object obj = Optional.ofNullable(cache.getIfPresent(url.toString()+avcode)).orElseGet(()->{
+            try {
+                Element element = dmmSite.getPreviewImg(Jsoup.parse(new URL(getMoreUrl(avcode)), 5000).body());
+                String u = element.attr("href");
+                return IOUtils.toByteArray(new URL(u));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+        if(obj != null){
+            return (byte[]) obj;
+        }
+
+        return null;
+    }
+
     public byte[] getDetailImage(String avcode) throws Exception {
+        Object obj = Optional.ofNullable(cache.getIfPresent(avcode)).orElseGet(()->{
+            try {
+                return getBinary(avcode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+        if(obj != null){
+            return (byte[]) obj;
+        }
+
+        return null;
+    }
+
+    private byte[] getBinary(String avcode) throws Exception {
         String url = getMoreUrl(avcode);
         Element element = dmmSite.getSampleList(Jsoup.parse(new URL(url), 5000).body());
         Elements elements = element.select("a img");
         for(Element e: elements){
             String u = e.attr("src");
             int i = u.lastIndexOf("-");
-            return IOUtils.toByteArray(new URL(u.replace(u.substring(i), "jp"+u.substring(i))));
+            byte[] res = IOUtils.toByteArray(new URL(u.replace(u.substring(i), "jp"+u.substring(i))));
+            cache.put(avcode, res);
+            return res;
         }
         return null;
     }
 
     public @NotNull String getUrl(String avcode) throws Exception {
-        Element element = dmmSite.getList(Jsoup.parse(new URL(String.format(app.getUrl(), URLEncoder.encode(avcode, "UTF-8"))), 5000).body());
-        Elements elements = element.select("li div p a span img");
+        Element element = dmmSite.getList(Jsoup.parse(new URL(getMoreUrl(avcode)), 5000).body());
+        return dmmSite.getPreviewImg(element).attr("src");
+        /*Elements elements = element.select("li div p a span img");
         for(Element e : elements){
             String path = e.attr("src");
 //            if(path.contains())
             System.out.println(path.substring(2));
             return path.substring(2);
         }
-        return null;
+        return null;*/
     }
 
     public @NotNull String getMoreUrl(String avcode) throws Exception {

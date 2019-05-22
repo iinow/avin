@@ -20,6 +20,15 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
+	compile 'com.github.ben-manes.caffeine:caffeine:2.7.0'
+
+	// Optional extensions
+	compile 'com.github.ben-manes.caffeine:guava:2.7.0'
+	compile 'com.github.ben-manes.caffeine:jcache:2.7.0'
+
+	// https://mvnrepository.com/artifact/org.greenrobot/eventbus
+	compile group: 'org.greenrobot', name: 'eventbus', version: '3.1.1'
+
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

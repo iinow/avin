@@ -2,6 +2,7 @@ package com.segeg.avin.controller;
 
 import com.segeg.avin.model.AppYaml;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class AvController {
     @Autowired
     public AppYaml model;
 
-    @GetMapping("/hello")
+    @GetMapping(value = "/hello", produces = MediaType.IMAGE_JPEG_VALUE)
     public BufferedImage hello() throws IOException {
         URL url = new URL("https://pics.dmm.co.jp/digital/video/kavr00025/kavr00025jp-1.jpg");
         BufferedImage image = ImageIO.read(url);

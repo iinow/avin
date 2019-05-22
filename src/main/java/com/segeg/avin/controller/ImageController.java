@@ -1,9 +1,12 @@
 package com.segeg.avin.controller;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.segeg.avin.model.AppYaml;
 import com.segeg.avin.service.ImageService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.DeprecatedConfigurationProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -29,32 +33,33 @@ public class ImageController {
     @GetMapping(value = "/hello", produces = MediaType.IMAGE_JPEG_VALUE)//, consumes="text/html"
     public @ResponseBody byte[] hello() throws IOException {
         URL url = new URL("https://pics.dmm.co.jp/digital/video/kavr00025/kavr00025jp-1.jpg");
-//        BufferedImage image = ImageIO.read(url);
-
         byte[] b = IOUtils.toByteArray(url);
         return b;
     }
 
-//    @GetMapping(value = "/", produces = MediaType.IMAGE_JPEG_VALUE)
+    /**
+     * 변경 예정
+     * */
     @GetMapping(value = "/", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] get_Image(
-            @RequestParam(value = "avcode", required = false) String avcode
+            @RequestParam(value = "avcode", required = false) String avcode,
+            HttpServletRequest request
     ) throws Exception {
-        return imageService.getImage(avcode);
-//        URL url = new URL(String.format(yaml.getUrl(), avcode));
-//        return IOUtils.toByteArray(url);
+        return imageService.getPreviewImage(avcode, request.getRequestURL());
     }
 
     @GetMapping(value = "/detail", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] get_ImageDetail(
-            @RequestParam(value = "avcode", required = false) String avcode
+            @RequestParam(value = "avcode", required = false) String avcode,
+            HttpServletRequest request
     ) throws Exception {
         return imageService.getDetailImage(avcode);
     }
 
     @GetMapping(value = "/manga", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] get_Manga(
-            @RequestParam(value = "avcode", required = false) String avcode
+            @RequestParam(value = "avcode", required = false) String avcode,
+            HttpServletRequest request
     ) throws Exception {
         return imageService.getManga();
     }

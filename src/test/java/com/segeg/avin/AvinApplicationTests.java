@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,14 +26,16 @@ public class AvinApplicationTests {
 	@Test
 	public void contextLoads() throws Exception{
 		String name = "kavr 00025";
-		URLDecoder.decode(name, "UTF-8");
+		URLDecoder.decode(name, StandardCharsets.UTF_8.toString());
 		System.out.println(URLEncoder.encode(name, "UTF-8"));
 		System.out.println(imageService.getImage(URLEncoder.encode(name, "UTF-8")));
 	}
 
 	@Test
     public void getManga() throws Exception {
-	    imageService.getManga();
+//	    imageService.getManga();
+		Optional<String> optstr = Optional.ofNullable(StandardCharsets.UTF_8.toString());
+		optstr.ifPresent(System.out::println);
     }
 
     @Test
