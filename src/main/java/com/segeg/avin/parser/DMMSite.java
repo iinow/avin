@@ -11,4 +11,9 @@ public class DMMSite extends ProductSite {
         Element list = body.getElementById("list");
         return list;
     }
+
+    public Element getSampleList(Element body){
+        Element list = body.getElementById("sample-image-block");
+        return list;
+    }
 }

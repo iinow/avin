@@ -23,10 +23,26 @@ public class AvinApplicationTests {
 
 	@Test
 	public void contextLoads() throws Exception{
-		String name = "edd 202";
+		String name = "kavr 00025";
 		URLDecoder.decode(name, "UTF-8");
 		System.out.println(URLEncoder.encode(name, "UTF-8"));
 		System.out.println(imageService.getImage(URLEncoder.encode(name, "UTF-8")));
 	}
 
+	@Test
+    public void getManga() throws Exception {
+	    imageService.getManga();
+    }
+
+    @Test
+    public void getPath() throws Exception {
+        String name = "kavr 025";
+        System.out.println(URLEncoder.encode(name, "UTF-8").replaceAll("\\+",""));
+        /*imageService.getDetailImage(URLEncoder.encode(name, "UTF-8"));*/
+        /*String url = "https://pics.dmm.co.jp/digital/video/kavr00025/kavr00025-1.jpg";
+        int i = url.lastIndexOf("-");
+        System.out.println(url.replace(url.substring(i), "jp"+url.substring(i)));*/
+
+
+    }
 }

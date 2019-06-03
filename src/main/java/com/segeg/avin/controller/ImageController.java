@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+
 @Controller
 @RequestMapping("/img")
 public class ImageController {
@@ -42,5 +43,19 @@ public class ImageController {
         return imageService.getImage(avcode);
 //        URL url = new URL(String.format(yaml.getUrl(), avcode));
 //        return IOUtils.toByteArray(url);
+    }
+
+    @GetMapping(value = "/detail", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] get_ImageDetail(
+            @RequestParam(value = "avcode", required = false) String avcode
+    ) throws Exception {
+        return imageService.getDetailImage(avcode);
+    }
+
+    @GetMapping(value = "/manga", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] get_Manga(
+            @RequestParam(value = "avcode", required = false) String avcode
+    ) throws Exception {
+        return imageService.getManga();
     }
 }

@@ -1,2 +1,4 @@
 app:
   url: https://www.dmm.co.jp/search/=/searchstr=%s
+  manga:
+    url: http://fanfox.net

@@ -26,6 +26,7 @@ public class AppYaml extends BaseModel {
     private String from;*/
 
     private String url;
+    private Manga manga;
 
     public AppYaml() {
     }
@@ -36,5 +37,25 @@ public class AppYaml extends BaseModel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Manga getManga(){
+        return manga;
+    }
+
+    public void setManga(Manga manga){
+        this.manga = manga;
+    }
+
+    public static class Manga extends BaseModel {
+        private String url;
+
+        public String getUrl(){
+            return url;
+        }
+
+        public void setUrl(String url){
+            this.url = url;
+        }
     }
 }
