@@ -20,7 +20,7 @@ public class GithubOAuth2UserInfo extends OAuth2UserDTO {
 
     @Override
     public String getEmail() {
-        return (String) attributes.get("login");
+        return (String) attributes.get("login") + "@users.noreply.github.com";
     }
 
     @Override
