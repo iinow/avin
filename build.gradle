@@ -1,5 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
 }
 
@@ -9,27 +11,48 @@ group = 'com.segeg'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
 repositories {
 	mavenCentral()
 }
 
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
 dependencies {
-	// https://mvnrepository.com/artifact/commons-io/commons-io
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	//https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup
-	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
-	compile 'com.github.ben-manes.caffeine:caffeine:2.7.0'
+	implementation 'com.github.ben-manes.caffeine:caffeine:2.7.0'
 
 	// Optional extensions
-	compile 'com.github.ben-manes.caffeine:guava:2.7.0'
-	compile 'com.github.ben-manes.caffeine:jcache:2.7.0'
+	implementation 'com.github.ben-manes.caffeine:guava:2.7.0'
+	implementation 'com.github.ben-manes.caffeine:jcache:2.7.0'
 
 	// https://mvnrepository.com/artifact/org.greenrobot/eventbus
-	compile group: 'org.greenrobot', name: 'eventbus', version: '3.1.1'
+	implementation group: 'org.greenrobot', name: 'eventbus', version: '3.1.1'
+	
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.5'
 
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

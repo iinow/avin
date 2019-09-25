@@ -1,6 +1,13 @@
 server:
-  port: 80
-app:
-  url: https://www.dmm.co.jp/search/=/searchstr=%s
-  manga:
-    url: http://fanfox.net
+  port: 1616
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://avin-db.ccxjc4qlbrep.ap-northeast-2.rds.amazonaws.com:6612/avin
+    username: segeg
+    password: dlwnsgk2!
+    driver-class-name: com.mysql.cj.jdbc.Driver
