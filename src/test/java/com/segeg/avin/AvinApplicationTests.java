@@ -1,7 +1,8 @@
 package com.segeg.avin;
 
-import com.segeg.avin.model.AppYaml;
-import com.segeg.avin.service.ImageService;
+import com.avin.api.service.ImageService;
+import com.avin.config.AppConfig;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class AvinApplicationTests {
 	private ImageService imageService;
 
 	@Autowired
-	private AppYaml app;
+	private AppConfig app;
 
 	@Test
 	public void contextLoads() throws Exception{
