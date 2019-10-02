@@ -17,6 +17,7 @@ public class OAuth2UserInfoFactory {
         }else if (registrationId.equalsIgnoreCase(PROVIDER.FACEBOOK.toString().toLowerCase())) {
             return new FacebookOAuth2UserInfo(attributes);
         }else if (registrationId.equalsIgnoreCase(PROVIDER.GITHUB.toString().toLowerCase())) {
+        	//github은 Email Api 따로 요청해야함 https://api.github.com/user/emails
             return new GithubOAuth2UserInfo(attributes);
         }else if(registrationId.equalsIgnoreCase(PROVIDER.KAKAO.toString().toLowerCase())) {
         	return new KakaoOAuth2UserInfo2(attributes);

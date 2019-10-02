@@ -1,7 +1,9 @@
 package com.segeg.avin;
 
-import com.avin.api.service.ImageService;
-import com.avin.config.AppConfig;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import com.avin.AvinApplication;
+import com.avin.api.service.ImageService;
+import com.avin.config.AppConfig;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = AvinApplication.class)
 public class AvinApplicationTests {
 	@Autowired
 	private ImageService imageService;

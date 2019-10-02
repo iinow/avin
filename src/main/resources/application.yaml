@@ -66,6 +66,8 @@ spring:
             user-name-attribute: id
             user-info-uri: https://graph.facebook.com/me?fields=id,name,email
             user-info-authentication-method: post
+#          github:
+#            user-info-uri: https://api.github.com/user/emails
 
 app:
   auth:
