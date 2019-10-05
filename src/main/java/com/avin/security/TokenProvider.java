@@ -4,10 +4,13 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.avin.api.service.UserService;
 import com.avin.config.AppConfig;
+import com.avin.entity.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,6 +26,9 @@ public class TokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
     private AppConfig appConfig;
+    
+    @Autowired
+    private UserService userService;
 
     public TokenProvider(AppConfig appProperties) {
         this.appConfig = appProperties;
@@ -49,6 +55,11 @@ public class TokenProvider {
                 .getBody();
 
         return Long.parseLong(claims.getSubject());
+    }
+    
+    public User getUserFromToken(String token) {
+    	long id = getUserIdFromToken(token);
+    	return userService.getUser(id).get();
     }
 
     public boolean validateToken(String authToken) {

@@ -30,6 +30,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
+    /**
+     * stateless 를 사용할 경우 SecurityContextHolder.getContext().setAuthentication 을 삭제해줘야한다. 
+     * */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {

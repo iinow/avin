@@ -1,5 +1,7 @@
 package com.avin.api.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +19,9 @@ public class UserService {
 	@Transactional
 	public User addUser(User user) {
 		return userRepository.save(user);
+	}
+	
+	public Optional<User> getUser(Long id) {
+		return userRepository.findById(id);
 	}
 }

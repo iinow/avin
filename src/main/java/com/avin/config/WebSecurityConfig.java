@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.avin.security.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.avin.security.LocalOAuth2UserService;
@@ -74,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.authorizedClientService(null)
 //				.clientRegistrationRepository(null);
 		http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//		http.addFilterBefore(tokenAuthenticationFilter(), BasicAuthenticationFilter.class);
 	}
 	
 	@Override
