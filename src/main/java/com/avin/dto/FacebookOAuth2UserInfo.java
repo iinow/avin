@@ -2,7 +2,7 @@ package com.avin.dto;
 
 import java.util.Map;
 
-public class FacebookOAuth2UserInfo extends OAuth2UserDTO {
+public class FacebookOAuth2UserInfo extends OAuth2UserDto {
     public FacebookOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }

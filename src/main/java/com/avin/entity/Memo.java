@@ -18,6 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
+@Builder
 public class Memo extends BaseEntity {
 	private static final long serialVersionUID = 5223644900072299160L;
 

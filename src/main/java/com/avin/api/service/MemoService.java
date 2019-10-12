@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.avin.api.repository.MemoRepository;
 import com.avin.common.modelmapper.DomainMapper;
-import com.avin.dto.MemoDTO;
+import com.avin.dto.MemoDto;
 import com.avin.entity.Memo;
 import com.avin.entity.User;
 import com.avin.security.SpringSecurityUserContext;
@@ -32,7 +32,7 @@ public class MemoService {
 	}
 	
 	@Transactional
-	public Memo addMemo(MemoDTO memoDto) throws Exception {
+	public Memo addMemo(MemoDto memoDto) throws Exception {
 		User user = userContext.getCurrentUser();
 		Memo m = domainMapper.convertToDomain(memoDto, Memo.class);
 		m.setUser(user);

@@ -7,11 +7,11 @@ import com.avin.dto.FacebookOAuth2UserInfo;
 import com.avin.dto.GithubOAuth2UserInfo;
 import com.avin.dto.GoogleOAuth2UserInfo;
 import com.avin.dto.KakaoOAuth2UserInfo2;
-import com.avin.dto.OAuth2UserDTO;
+import com.avin.dto.OAuth2UserDto;
 import com.avin.exception.OAuth2AuthenticationProcessingException;
 
 public class OAuth2UserInfoFactory {
-	public static OAuth2UserDTO getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
+	public static OAuth2UserDto getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
         if(registrationId.equalsIgnoreCase(PROVIDER.GOOGLE.toString().toLowerCase())) {
             return new GoogleOAuth2UserInfo(attributes);
         }else if (registrationId.equalsIgnoreCase(PROVIDER.FACEBOOK.toString().toLowerCase())) {

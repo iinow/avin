@@ -2,7 +2,7 @@ package com.avin.dto;
 
 import java.util.Map;
 
-public class GoogleOAuth2UserInfo extends OAuth2UserDTO {
+public class GoogleOAuth2UserInfo extends OAuth2UserDto {
 
     public GoogleOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);

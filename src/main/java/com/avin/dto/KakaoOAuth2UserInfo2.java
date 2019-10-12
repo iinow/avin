@@ -3,7 +3,7 @@ package com.avin.dto;
 import java.util.Map;
 import java.util.Optional;
 
-public class KakaoOAuth2UserInfo2 extends OAuth2UserDTO {
+public class KakaoOAuth2UserInfo2 extends OAuth2UserDto {
 
     public KakaoOAuth2UserInfo2(Map<String, Object> attributes) {
         super(attributes);

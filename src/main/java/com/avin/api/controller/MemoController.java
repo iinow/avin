@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.avin.api.service.MemoService;
-import com.avin.dto.MemoDTO;
+import com.avin.dto.MemoDto;
 
 @RestController
 @RequestMapping("/memos")
@@ -24,7 +24,7 @@ public class MemoController {
 	
 	@PostMapping("")
 	public ResponseEntity<?> postMemo(
-			@RequestBody(required = true) MemoDTO memo,
+			@RequestBody(required = true) MemoDto memo,
 			ServletRequest request, ServletResponse response){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		try {
@@ -33,4 +33,6 @@ public class MemoController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+	
+	
 }

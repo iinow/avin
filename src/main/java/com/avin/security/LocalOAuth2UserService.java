@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.avin.api.repository.UserRepository;
 import com.avin.common.util.Constants.PROVIDER;
-import com.avin.dto.OAuth2UserDTO;
+import com.avin.dto.OAuth2UserDto;
 import com.avin.entity.User;
 import com.avin.exception.OAuth2AuthenticationProcessingException;
 
@@ -38,7 +38,7 @@ public class LocalOAuth2UserService extends DefaultOAuth2UserService {
 	}
 	
 	private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-		OAuth2UserDTO oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
+		OAuth2UserDto oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
@@ -60,7 +60,7 @@ public class LocalOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserDTO oAuth2UserInfo) {
+    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserDto oAuth2UserInfo) {
     	User user = new User();
 
         user.setProvider(PROVIDER.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()));
@@ -71,7 +71,7 @@ public class LocalOAuth2UserService extends DefaultOAuth2UserService {
         return userRepository.save(user);
     }
 
-    private User updateExistingUser(User existingUser, OAuth2UserDTO oAuth2UserInfo) {
+    private User updateExistingUser(User existingUser, OAuth2UserDto oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
         existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);

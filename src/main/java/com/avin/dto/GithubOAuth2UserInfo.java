@@ -2,7 +2,7 @@ package com.avin.dto;
 
 import java.util.Map;
 
-public class GithubOAuth2UserInfo extends OAuth2UserDTO {
+public class GithubOAuth2UserInfo extends OAuth2UserDto {
 
     public GithubOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);

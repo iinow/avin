@@ -2,10 +2,10 @@ package com.avin.dto;
 
 import java.util.Map;
 
-public abstract class OAuth2UserDTO {
+public abstract class OAuth2UserDto {
 	protected Map<String, Object> attributes;
 
-    public OAuth2UserDTO(Map<String, Object> attributes) {
+    public OAuth2UserDto(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 

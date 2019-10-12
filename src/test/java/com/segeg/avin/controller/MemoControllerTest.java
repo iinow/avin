@@ -29,7 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.avin.AvinApplication;
 import com.avin.api.controller.MemoController;
 import com.avin.config.AppConfig;
-import com.avin.dto.MemoDTO;
+import com.avin.dto.MemoDto;
 import com.avin.security.filter.TokenAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -86,7 +86,7 @@ public class MemoControllerTest {
 	
 	@Test
 	public void postMemo() throws Exception {
-		MemoDTO dto = new MemoDTO();
+		MemoDto dto = new MemoDto();
 		dto.setContent("Hi");
 		String body = mapper.writeValueAsString(dto);
 		String token = createToken((long)1);
