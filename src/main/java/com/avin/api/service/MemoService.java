@@ -44,4 +44,12 @@ public class MemoService {
 	public Optional<Memo> getMemo(Long id) {
 		return memoRepository.findById(id);
 	}
+	
+	@Transactional
+	public void setMemo(MemoDto dto) {
+		Memo memo = domainMapper.convertToDomain(dto, Memo.class);
+		getMemo(dto.getId()).ifPresent(m -> {
+			m.setContent(memo.getContent());
+		});
+	}
 }
