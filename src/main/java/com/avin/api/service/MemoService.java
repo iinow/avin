@@ -4,11 +4,13 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.avin.api.repository.MemoRepository;
 import com.avin.common.modelmapper.DomainMapper;
+import com.avin.common.modelmapper.DomainMapperImpl;
 import com.avin.dto.MemoDto;
 import com.avin.entity.Memo;
 import com.avin.entity.User;

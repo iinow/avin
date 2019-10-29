@@ -11,6 +11,8 @@ spring:
     username: segeg
     password: dlwnsgk2!
     driver-class-name: com.mysql.cj.jdbc.Driver
+   
+  aop:    proxy-target-class: true
     
   security:
     user:

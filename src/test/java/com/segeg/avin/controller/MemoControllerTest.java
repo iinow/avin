@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +40,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AvinApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@Transactional
 public class MemoControllerTest {
 	
 	@Autowired

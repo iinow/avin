@@ -28,10 +28,9 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
-@Builder
 public class Memo extends BaseEntity {
 	private static final long serialVersionUID = 5223644900072299160L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

@@ -3,6 +3,7 @@ package com.avin.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -34,11 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     
+    private TokenAuthenticationFilter tokenFilter;
+    
+	public WebSecurityConfig(TokenAuthenticationFilter tokenFilter) {
+		this.tokenFilter = tokenFilter;
+	}
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		super.configure(web);
+//		web.ignoring().antMatchers(HttpMethod.GET, "/login");
 	}
-
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -52,11 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 				.disable()
 			.authorizeRequests()
-			.anyRequest().authenticated()
+				.antMatchers(HttpMethod.GET, "/users/*").permitAll()
+				.anyRequest().authenticated()
 			.and()
 			.oauth2Login()
             .authorizationEndpoint()
-            	//.resol
                 .baseUri("/oauth2/authorize")
                 .authorizationRequestRepository(cookieAuthorizationRequestRepository())
                 .and()
@@ -74,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.authorizedClientRepository(null)
 //				.authorizedClientService(null)
 //				.clientRegistrationRepository(null);
-		http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(this.tokenFilter, BasicAuthenticationFilter.class);
 //		http.addFilterBefore(tokenAuthenticationFilter(), BasicAuthenticationFilter.class);
 	}
 	
@@ -99,8 +107,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 	
-	@Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
-    }
+//	@Bean
+//    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+//        return new TokenAuthenticationFilter();
+//    }
 }
