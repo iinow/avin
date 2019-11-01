@@ -22,4 +22,25 @@ public class Constants {
 			throw new RuntimeException();
 		}
 	}
+	
+	public static final String BOARD_HUMOR = "humor";
+	
+	public enum BOARDTYPE{
+		HUMOR(1);
+		
+		public final int value;
+		
+		BOARDTYPE(int value){
+			this.value = value;
+		}
+		
+		public static BOARDTYPE findBOARDTYPE(int value) {
+			for(BOARDTYPE type: values()) {
+				if(type.value == value) {
+					return type;
+				}
+			}
+			throw new RuntimeException();
+		}
+	}
 }

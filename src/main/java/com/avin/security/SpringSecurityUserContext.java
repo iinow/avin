@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.avin.api.service.UserService;
 import com.avin.entity.User;
+import com.avin.exception.SecurityUserNotFoundException;
 
 @Component
 public class SpringSecurityUserContext {
@@ -28,7 +29,7 @@ public class SpringSecurityUserContext {
 	public User getCurrentUser() {
 		UserPrincipal prin = getCurrentUserPrincipal();
 		if(prin == null) {
-			return null;
+			throw new SecurityUserNotFoundException();
 		}
 		return userService.getUser(prin.getId()).orElseThrow(() -> new UsernameNotFoundException(String.valueOf(prin.getId())));
 	}

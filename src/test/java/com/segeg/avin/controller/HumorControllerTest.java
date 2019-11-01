@@ -26,12 +26,13 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.avin.AvinApplication;
-import com.avin.api.controller.MemoController;
+import com.avin.api.controller.HumorController;
 import com.avin.config.AppConfig;
-import com.avin.dto.MemoDto;
+import com.avin.dto.BoardHumorDto;
 import com.avin.security.filter.TokenAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,11 +41,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AvinApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-@Transactional
-public class MemoControllerTest {
-	
+public class HumorControllerTest {
+
 	@Autowired
-	private MemoController memoController;
+	private HumorController controller;
 	
 	@Autowired
 	private AppConfig appConfig;
@@ -88,21 +88,37 @@ public class MemoControllerTest {
     }
 	
 	@Test
-	public void postMemo() throws Exception {
-		MemoDto dto = new MemoDto();
-		dto.setContent("Hi");
-		String body = mapper.writeValueAsString(dto);
+	public void postHumor() throws Exception {
 		String token = createToken((long)1);
+		BoardHumorDto dto = new BoardHumorDto();
+		dto.setTitle("that is title..");
+		dto.setContent("Hellldlldkdjfakd");
+		String body = mapper.writeValueAsString(dto);
 		
-		standaloneSetup(memoController)
+		standaloneSetup(this.controller)
 			.apply(documentationConfiguration(this.restDocumentation))
 			.addFilter(tokenFilter).build()
 			.perform(
-				post("/memos")
+				post("/boards/humors")
 					.content(body)
-					.contentType(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.header("Authorization", "Bearer "+token))
 			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().is(200));
+	}
+	
+	@Test
+	public void getHumor() {
+		
+	}
+	
+	@Test
+	public void patchHumor() {
+		
+	}
+	
+	@Test
+	public void deleteHumor() {
+		
 	}
 }

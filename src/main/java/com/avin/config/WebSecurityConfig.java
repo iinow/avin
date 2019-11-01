@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.authorizedClientRepository(null)
 //				.authorizedClientService(null)
 //				.clientRegistrationRepository(null);
-		http.addFilterBefore(this.tokenFilter, BasicAuthenticationFilter.class);
+		http.addFilterBefore(this.tokenFilter, UsernamePasswordAuthenticationFilter.class);
 //		http.addFilterBefore(tokenAuthenticationFilter(), BasicAuthenticationFilter.class);
 	}
 	
