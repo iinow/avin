@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.avin.exception.FilterExceptionHandler;
+import com.avin.exception.handler.FilterExceptionHandler;
 import com.avin.security.LocalUserDetailsService;
 import com.avin.security.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;

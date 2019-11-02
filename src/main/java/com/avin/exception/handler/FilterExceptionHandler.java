@@ -1,4 +1,4 @@
-package com.avin.exception;
+package com.avin.exception.handler;
 
 import javax.servlet.http.HttpServletRequest;
 

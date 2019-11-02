@@ -1,4 +1,4 @@
-package com.avin.exception;
+package com.avin.exception.handler;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
