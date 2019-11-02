@@ -3,7 +3,10 @@ package com.avin.api.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +34,19 @@ public class HumorController {
 			@RequestBody BoardHumorDto dto,
 			HttpServletRequest request, HttpServletResponse response){
 		return ResponseEntity.ok(boardService.add(dto));
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<?> getHumor(
+			@PathVariable(name = "id", required = true) Long id,
+			HttpServletRequest request, HttpServletResponse response){
+		return ResponseEntity.ok(boardService.getDto(id));
+	}
+	
+	@GetMapping(value = "")
+	public ResponseEntity<?> getHumorCnt(
+			Pageable pageable,
+			HttpServletRequest request, HttpServletResponse response){
+		return ResponseEntity.ok(boardService.getBoards(pageable));
 	}
 }

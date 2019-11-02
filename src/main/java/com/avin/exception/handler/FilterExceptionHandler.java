@@ -34,6 +34,8 @@ public class FilterExceptionHandler extends ResponseEntityExceptionHandler {
 			er.setError("Unsupported JWT token");
 		}else if(e instanceof IllegalArgumentException) {
 			er.setError("JWT claims string is empty");
+		}else {
+			er.setError(e.getMessage());
 		}
 		
 		return ResponseEntity

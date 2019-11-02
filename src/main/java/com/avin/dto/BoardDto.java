@@ -1,5 +1,7 @@
 package com.avin.dto;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
@@ -21,4 +23,8 @@ public abstract class BoardDto {
 	
 	@NotNull
 	private String content;
+	
+	private Date cdt;
+	
+	private Date udt;
 }

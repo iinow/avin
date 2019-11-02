@@ -4,6 +4,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +21,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -31,6 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.avin.AvinApplication;
 import com.avin.api.controller.HumorController;
+import com.avin.api.service.BoardService;
 import com.avin.config.AppConfig;
 import com.avin.dto.BoardHumorDto;
 import com.avin.security.filter.TokenAuthenticationFilter;
@@ -39,6 +46,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * @author BISHOP
+ * @since 2019.11.01
+ * Pageable g = PageRequest.of(0, 10, Sort.by(Order.desc("cdt")));
+ * */
+@EnableSpringDataWebSupport
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AvinApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class HumorControllerTest {
@@ -64,6 +77,12 @@ public class HumorControllerTest {
 	
 	private RestDocumentationResultHandler document;
 	
+	@Autowired
+	private BoardService boardService;
+	
+	//jwt token
+	private String token;
+	
 	@Before
 	public void setUp() {
 		this.document = document(
@@ -73,6 +92,8 @@ public class HumorControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
 				.apply(documentationConfiguration(this.restDocumentation))
 				.build();
+		
+		token = createToken((long)1);
 	}
 	
 	private String createToken(Long id) {
@@ -89,7 +110,6 @@ public class HumorControllerTest {
 	
 	@Test
 	public void postHumor() throws Exception {
-		String token = createToken((long)1);
 		BoardHumorDto dto = new BoardHumorDto();
 		dto.setTitle("that is title..");
 		dto.setContent("Hellldlldkdjfakd");
@@ -108,8 +128,27 @@ public class HumorControllerTest {
 	}
 	
 	@Test
-	public void getHumor() {
+	public void getHumor() throws Exception {
+		long id = 1;
 		
+		standaloneSetup(this.controller)
+			.apply(documentationConfiguration(this.restDocumentation))
+			.addFilter(tokenFilter).build()
+			.perform(
+				get("/boards/humors/{id}", id)
+					.header("Authorization", "Bearer "+token))
+			.andDo(print())
+			.andExpect(status().is(200));
+	}
+	
+	@Test
+	public void getHumors() throws Exception {
+		this.mockMvc.perform(get("/boards/humors")
+				.param("page", "0")
+				.param("size", "2")
+				.param("sort", "id,DESC"))
+			.andDo(print())
+			.andExpect(status().is(200));
 	}
 	
 	@Test

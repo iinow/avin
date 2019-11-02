@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 				.disable()
 			.authorizeRequests()
+				.antMatchers(HttpMethod.GET, "/boards/humors").permitAll()
 				.antMatchers(HttpMethod.GET, "/users/*").permitAll()
 				.anyRequest().authenticated()
 			.and()
