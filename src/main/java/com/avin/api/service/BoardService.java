@@ -67,4 +67,29 @@ public class BoardService {
 		return boardHumorRepository.findAll(page)
 				.map(board -> domainMapper.convertToDomain(board, BoardHumorDto.class));
 	}
+	
+	@Transactional
+	public void updateBoard(Long id, BoardHumorDto dto) {
+		BoardHumor board = get(id);
+		User user = userContext.getCurrentUser();
+		
+		if(board.getRegisterUser().getId() != user.getId()) {
+			throw new RuntimeException();
+		}
+		
+		board.setContent(dto.getContent());
+		board.setTitle(dto.getTitle());
+	}
+	
+	@Transactional
+	public void deleteBoard(Long id) {
+		BoardHumor board = get(id);
+		User user = userContext.getCurrentUser();
+		
+		if(board.getRegisterUser().getId() != user.getId()) {
+			throw new RuntimeException();
+		}
+		
+		boardHumorRepository.deleteById(id);
+	}
 }

@@ -1,10 +1,13 @@
 package com.segeg.avin.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,10 +24,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
@@ -32,13 +31,13 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.avin.AvinApplication;
 import com.avin.api.controller.HumorController;
 import com.avin.api.service.BoardService;
 import com.avin.config.AppConfig;
+import com.avin.dto.BoardDto;
 import com.avin.dto.BoardHumorDto;
 import com.avin.security.filter.TokenAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +50,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * @since 2019.11.01
  * Pageable g = PageRequest.of(0, 10, Sort.by(Order.desc("cdt")));
  * */
+@Transactional
 @EnableSpringDataWebSupport
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AvinApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -91,6 +91,7 @@ public class HumorControllerTest {
         );
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
 				.apply(documentationConfiguration(this.restDocumentation))
+				.addFilters(tokenFilter)
 				.build();
 		
 		token = createToken((long)1);
@@ -111,8 +112,8 @@ public class HumorControllerTest {
 	@Test
 	public void postHumor() throws Exception {
 		BoardHumorDto dto = new BoardHumorDto();
-		dto.setTitle("that is title..");
-		dto.setContent("Hellldlldkdjfakd");
+		dto.setTitle("that is title..2");
+		dto.setContent("Hellldlldkdjfakd2");
 		String body = mapper.writeValueAsString(dto);
 		
 		standaloneSetup(this.controller)
@@ -149,15 +150,33 @@ public class HumorControllerTest {
 				.param("sort", "id,DESC"))
 			.andDo(print())
 			.andExpect(status().is(200));
+		
+		when(null);
 	}
 	
 	@Test
-	public void patchHumor() {
+	public void patchHumor() throws Exception {
+		long id = 1;
+		BoardDto dto = new BoardHumorDto();
+		dto.setContent("변경한다!");
+		dto.setTitle("제목을!");
+		String body = mapper.writeValueAsString(dto);
 		
+		this.mockMvc.perform(patch("/boards/humors/{id}", id)
+				.content(body)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.header("Authorization", "Bearer "+token))
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 	
 	@Test
-	public void deleteHumor() {
+	public void deleteHumor() throws Exception {
+		long id = 1;
 		
+		this.mockMvc.perform(delete("/boards/humors/{id}", id)
+				.header("Authorization", "Bearer "+token))
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 }
