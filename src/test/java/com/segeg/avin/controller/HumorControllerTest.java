@@ -112,8 +112,8 @@ public class HumorControllerTest {
 	@Test
 	public void postHumor() throws Exception {
 		BoardHumorDto dto = new BoardHumorDto();
-		dto.setTitle("that is title..2");
-		dto.setContent("Hellldlldkdjfakd2");
+		dto.setTitle("되는건가 안되는건가");
+		dto.setContent("테스트로 넣어봄");
 		String body = mapper.writeValueAsString(dto);
 		
 		standaloneSetup(this.controller)
@@ -130,7 +130,7 @@ public class HumorControllerTest {
 	
 	@Test
 	public void getHumor() throws Exception {
-		long id = 1;
+		long id = 3;
 		
 		standaloneSetup(this.controller)
 			.apply(documentationConfiguration(this.restDocumentation))
@@ -150,8 +150,6 @@ public class HumorControllerTest {
 				.param("sort", "id,DESC"))
 			.andDo(print())
 			.andExpect(status().is(200));
-		
-		when(null);
 	}
 	
 	@Test
@@ -172,7 +170,7 @@ public class HumorControllerTest {
 	
 	@Test
 	public void deleteHumor() throws Exception {
-		long id = 1;
+		long id = 4;
 		
 		this.mockMvc.perform(delete("/boards/humors/{id}", id)
 				.header("Authorization", "Bearer "+token))
